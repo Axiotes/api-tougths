@@ -3,8 +3,14 @@ const session = require("express-session");
 const FileStore = require("session-file-store")(session);
 const flash = require("express-flash");
 const conn = require("./db/conn");
+const cors = require("cors");
 
 const app = express();
+
+const Tought = require("./models/Tought");
+const User = require("./models/User");
+
+app.use(cors());
 
 app.use(
   express.urlencoded({
