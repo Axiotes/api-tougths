@@ -7,8 +7,15 @@ const cors = require("cors");
 
 const app = express();
 
+// CONTROLLERS
+const ToughtController = require("./controllers/ToughtController");
+
+// MODELS
 const Tought = require("./models/Tought");
 const User = require("./models/User");
+
+// ROUTES
+const toughtRoutes = require("./routes/toughtRoutes");
 
 app.use(cors());
 
@@ -48,6 +55,10 @@ app.use((req, res, next) => {
 
   next();
 });
+
+app.use("/toughts", toughtRoutes);
+
+app.get("/", ToughtController.showToughts);
 
 conn
   .sync()
