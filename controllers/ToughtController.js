@@ -7,7 +7,22 @@ module.exports = class ToughtController {
   }
 
   static async dashboard(req, res) {
-    res.send("Tela de dashboard");
+    const userId = req.session.userid;
+
+    const user = await User.findOne({
+      where: { id: userId },
+      include: Tought,
+      plain: true,
+    });
+
+    if (!user) {
+      res.send(false);
+      return;
+    }
+
+    const toughts = user.Tought.map((result) => result.dataValues);
+
+    res.send(toughts);
   }
 
   static async createTought(req, res) {
