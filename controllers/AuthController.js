@@ -50,4 +50,8 @@ module.exports = class AuthController {
       req.flash("message", "Erro ao cadastrar");
     }
   }
+
+  static logout(req, res) {
+    req.session.destroy();
+  }
 };
