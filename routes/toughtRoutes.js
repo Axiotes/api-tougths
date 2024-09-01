@@ -6,6 +6,7 @@ const checkAuth = require("../middlewares/auth").checkAuth;
 
 router.get("/", ToughtController.showToughts);
 router.get("/dashboard", checkAuth, ToughtController.dashboard);
+router.get("/remove", checkAuth, ToughtController.removeTought);
 router.post("/add", checkAuth, ToughtController.createTought);
 
 module.exports = router;

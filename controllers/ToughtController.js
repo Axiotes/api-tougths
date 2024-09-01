@@ -35,4 +35,13 @@ module.exports = class ToughtController {
 
     res.flash("message", "Pensamento criado com sucesso");
   }
+
+  static async removeTought(req, res) {
+    const id = req.body.id;
+    const userId = req.session.userid;
+
+    await Tought.destroy({ where: { id: id, UserId: userId } });
+
+    res.flash("message", "Pensamento removido com sucesso");
+  }
 };
