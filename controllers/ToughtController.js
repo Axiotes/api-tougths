@@ -4,7 +4,13 @@ const User = require("../models/User");
 
 module.exports = class ToughtController {
   static async showToughts(req, res) {
-    res.send("Tela de home");
+    const toughtsData = await Tought.findAll({
+      include: User,
+    });
+
+    const toughts = toughtsData.map((result) => result.get({ plain: true }));
+
+    res.send(toughts);
   }
 
   static async dashboard(req, res) {
