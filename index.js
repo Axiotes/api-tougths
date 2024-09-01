@@ -16,6 +16,7 @@ const User = require("./models/User");
 
 // ROUTES
 const toughtRoutes = require("./routes/toughtRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 app.use(cors());
 
@@ -57,6 +58,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/toughts", toughtRoutes);
+app.use("/", authRoutes);
 
 app.get("/", ToughtController.showToughts);
 
