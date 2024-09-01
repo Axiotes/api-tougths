@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const Tought = require("../models/Tought");
 const User = require("../models/User");
 
@@ -43,5 +44,17 @@ module.exports = class ToughtController {
     await Tought.destroy({ where: { id: id, UserId: userId } });
 
     res.flash("message", "Pensamento removido com sucesso");
+  }
+
+  static async editTought(req, res) {
+    const id = req.body.id;
+
+    const tought = {
+      title: req.body.title,
+    };
+
+    await Tought.update(tought, { where: { id: id } });
+
+    res.flash("message", "Pensamento atualizado com sucesso");
   }
 };
