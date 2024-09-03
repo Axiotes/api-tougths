@@ -15,10 +15,7 @@ module.exports = class AuthController {
       return;
     }
 
-    req.session.userid = user.id;
-
-    req.session.save();
-    res.send({ message: "", registered: true });
+    res.send({ message: "", registered: true, userId: user.id });
   }
 
   static async register(req, res) {
@@ -54,16 +51,13 @@ module.exports = class AuthController {
     };
 
     try {
-      await User.create(user);
-
-      req.session.userid = user.id;
+      const newUser = await User.create(user);
 
       res.send({
         message: "Cadastro realizado com sucesso",
         registered: true,
+        userId: newUser.id,
       });
-
-      req.session.save();
     } catch (err) {
       console.log(err);
       res.send({
@@ -71,9 +65,5 @@ module.exports = class AuthController {
         registered: false,
       });
     }
-  }
-
-  static logout(req, res) {
-    req.session.destroy();
   }
 };
