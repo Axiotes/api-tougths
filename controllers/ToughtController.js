@@ -11,17 +11,17 @@ module.exports = class ToughtController {
     const toughtsData = await Tought.findAll({
       include: User,
       where: {
-        title: { [Op.like]: `%${search}%` }
-      }
+        title: { [Op.like]: `%${search}%` },
+      },
     });
 
     const toughts = toughtsData.map((result) => result.get({ plain: true }));
 
-    res.send({toughts});
+    res.send({ toughts });
   }
 
   static async dashboard(req, res) {
-    const userId = req.session.userid;
+    const userId = req.body.userId;
 
     const user = await User.findOne({
       where: { id: userId },
@@ -42,21 +42,32 @@ module.exports = class ToughtController {
   static async createTought(req, res) {
     const tought = {
       title: req.body.title,
-      UserId: req.session.userid,
+      UserId: req.body.userId,
     };
 
-    await Tought.create(tought);
+    try {
+      await Tought.create(tought);
 
-    res.flash("message", "Pensamento criado com sucesso");
+      res.send({ message: "Pensamento criado com sucesso", tought: true });
+    } catch (err) {
+      console.log(err);
+      res.send({
+        message: "Erro ao criar pensamento! Tente novamente",
+        tought: false,
+      });
+    }
   }
 
   static async removeTought(req, res) {
     const id = req.body.id;
-    const userId = req.session.userid;
+    const userId = req.body.userId;
 
     await Tought.destroy({ where: { id: id, UserId: userId } });
 
-    res.flash("message", "Pensamento removido com sucesso");
+    res.send({
+      message: "Pensamento removido com sucesso",
+      tought: false,
+    });
   }
 
   static async editTought(req, res) {
@@ -68,6 +79,9 @@ module.exports = class ToughtController {
 
     await Tought.update(tought, { where: { id: id } });
 
-    res.flash("message", "Pensamento atualizado com sucesso");
+    res.send({
+      message: "Pensamento atualizado com sucesso",
+      tought: true,
+    });
   }
 };
