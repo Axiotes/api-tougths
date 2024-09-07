@@ -28,7 +28,7 @@ module.exports = class ToughtController {
   }
 
   static async dashboard(req, res) {
-    const userId = req.body.userId;
+    const userId = req.params.userId;
 
     const user = await User.findOne({
       where: { id: userId },
@@ -36,14 +36,7 @@ module.exports = class ToughtController {
       plain: true,
     });
 
-    if (!user) {
-      res.send(false);
-      return;
-    }
-
-    const toughts = user.Tought.map((result) => result.dataValues);
-
-    res.send(toughts);
+    res.send(user);
   }
 
   static async createTought(req, res) {
