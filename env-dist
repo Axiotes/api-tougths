@@ -1,5 +1,5 @@
 HOST=localhost
 DATABASE=database
-USERNAME=root
+USER_NAME=root
 PASSWORD=
 PORT=3306
