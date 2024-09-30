@@ -1,6 +1,7 @@
 const User = require("../models/User");
 
 const bcrypt = require("bcryptjs");
+const createUserToken = require("../helpers/create-user-token");
 
 module.exports = class AuthController {
   static async login(req, res) {
@@ -53,11 +54,7 @@ module.exports = class AuthController {
     try {
       const newUser = await User.create(user);
 
-      res.send({
-        message: "Cadastro realizado com sucesso",
-        registered: true,
-        userId: newUser.id,
-      });
+      createUserToken(newUser, req, res);
     } catch (err) {
       console.log(err);
       res.send({
